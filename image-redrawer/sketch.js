@@ -8,7 +8,8 @@ function preload() {
 function setup() {
   createCanvas(1000, 1000);
   rectMode(CENTER);
-  frameRate(24)
+  frameRate(24);
+  pixelDensity(0.1);
 
   
   size = 100
