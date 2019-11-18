@@ -1,32 +1,29 @@
-// let slider;
 let size;
 let img;
 
+
+function preload() {
+  img = loadImage("assets/test.png");
+}
 function setup() {
-  createCanvas(1920, 1300);
-  angleMode(DEGREES);
+  createCanvas(1000, 1000);
   rectMode(CENTER);
-  background(240);
   frameRate(24)
-  img = loadImage("assets/test.jpeg")
-  // slider = createSlider(1, 200, 100);
-  // slider.position(10, height - 20);
-  // slider.style('width', '300px');
+
   
   size = 100
+  background(240);
 }
 
 
 
 function draw() {
-  Image(img, 0, 0);
-  strokeWeight(1);
-  stroke(0,0,0,50)
-  noFill()
+  noStroke();
+
   if (mouseIsPressed) {
-    translate(mouseX, mouseY)
-    rotate(random(360));
-    rect(0, 0, size, size);
+    let myfill = sampleColorAverage(mouseX, mouseY, size, 10);
+    fill(myfill);
+    rect(mouseX, mouseY, size, size);
   }
   // clear screen
   if (keyIsPressed == true && key == "d") {
@@ -45,4 +42,29 @@ function draw() {
       size += 2;
     }
   }
+  // show background image
+  if (keyIsPressed == true && key == "b") {
+    background(img);
+  }
+}
+
+
+function sampleColorAverage(x, y, size, samples) {
+  // initializing color array and color values
+  let col = [];
+  let red = 0;
+  let green = 0;
+  let blue = 0;
+  
+  for (i = 0; i < samples; i++) {
+    // sampling
+    col[i] = img.get(x + random(x - size, x + size), y + random(y - size, y + size));
+    
+    // adding up color squares for correct average
+    red += col[i][0] * col[i][0];
+    green += col[i][1] * col[i][1];
+    blue += col[i][2] * col[i][2];
+  }
+  // return correctly averaged color
+  return color(sqrt(red / col.length), sqrt(green / col.length), sqrt(blue / col.length)); 
 }
