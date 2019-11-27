@@ -2,21 +2,29 @@ let size = 100;
 let img;
 let size_slider;
 let sample_slider;
+let working_img;
 
 
 function preload() {
   img = loadImage("assets/flowers.jpg");
+  console.log(typeof(img));
   img.resize(0, windowHeight);
 }
 
 function setup() {
-  createCanvas(img.width, windowHeight);
+  createCanvas(1000, windowHeight);
   rectMode(CENTER);
   frameRate(24);
   
+  // NOTE: It currently not possible to load your own images into it.
+  // I will have to setup a webserver for it
+  // Current workaround is to download the code to your local machine
+  // and add in the image path manually.
+  // This will be fixed in the future!
+  
   // choose own image files
-  input = createFileInput(handleFile);
-  input.position(1250, 300);
+//  input = createFileInput(handleFile);
+//  input.position(1250, 300);
 
   background(240);
   
@@ -69,7 +77,7 @@ function keyPressed() {
   }
   // show background image
   if (key == "b") {
-    image(img, 0, 0);
+    image(working_img, 0, 0);
   }
   // save current canvas
   if (key == "s") {
@@ -107,17 +115,17 @@ function randomSample(x, size) {
 }
 
 // gets called everytime the window is resized
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  working_image = img.resize(0, windowHeight);
-}
+//function windowResized() {
+//  resizeCanvas(windowWidth, windowHeight);
+//}
 
 // callback function for image selection
 function handleFile(file) {
-  print(file);
   if (file.type === 'image') {
-    img = createImg(file.data, '');
-    img.hide();
+    working_img = createImg(file.data);
+    working_img.hide();
+    console.log(working_img);
+    console.log(working_img.value());
   } else {
     img = null;
   }
