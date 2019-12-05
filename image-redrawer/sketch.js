@@ -2,13 +2,16 @@ let size = 100;
 let img;
 let size_slider;
 let sample_slider;
-let working_img;
 
 
 function preload() {
-  img = loadImage("assets/flowers.jpg");
-  console.log(typeof(img));
-  img.resize(0, windowHeight);
+  // Preloading images for later use
+  img1 = loadImage("assets/flowers.jpg");
+  img2 = loadImage("assets/fruits.jpg");
+  img3 = loadImage("assets/clownfish.jpg");
+  img4 = loadImage("assets/sunset.jpg");
+  img5 = loadImage("assets/winter.jpg");
+  img6 = loadImage("assets/test.png");  
 }
 
 function setup() {
@@ -16,16 +19,8 @@ function setup() {
   rectMode(CENTER);
   frameRate(24);
   
-  // NOTE: It currently not possible to load your own images into it.
-  // I will have to setup a webserver for it
-  // Current workaround is to download the code to your local machine
-  // and add in the image path manually.
-  // This will be fixed in the future!
-  
-  // choose own image files
-//  input = createFileInput(handleFile);
-//  input.position(1250, 300);
-
+  img = img1;
+  img.resize(0, windowHeight);
   background(240);
   
   // Size Slider
@@ -42,7 +37,6 @@ function setup() {
   sample_slider.position(1250, 150);
   sample_slider.style('width', '200px');
 }
-
 
 
 function draw() {
@@ -62,27 +56,23 @@ function keyPressed() {
   if (key == "d") {
     background(240);
   }
-  // modify size
-  // smaller
-  if (key == "-") {
-    if (size >= 2) {
-      size -= 4;
-    }
-  }
-  // larger
-  if (key == "+") {
-    if (size <= 300) {
-      size += 4;
-    }
-  }
   // show background image
   if (key == "b") {
-    image(working_img, 0, 0);
+    image(img, 0, 0);
   }
   // save current canvas
   if (key == "s") {
     saveCanvas("download", 'png');
   }
+  
+  if (key == '1') img = img1;
+  if (key == '2') img = img2;
+  if (key == '3') img = img3;
+  if (key == '4') img = img4;
+  if (key == '5') img = img5;
+  if (key == '6') img = img6;
+  
+  img.resize(0, windowHeight);
 }
 
 function sampleColorAverage(x, y, size, samples) {
@@ -111,22 +101,5 @@ function randomSample(x, size) {
     return x - random(size);
   } else {
     return x + random(size);
-  }
-}
-
-// gets called everytime the window is resized
-//function windowResized() {
-//  resizeCanvas(windowWidth, windowHeight);
-//}
-
-// callback function for image selection
-function handleFile(file) {
-  if (file.type === 'image') {
-    working_img = createImg(file.data);
-    working_img.hide();
-    console.log(working_img);
-    console.log(working_img.value());
-  } else {
-    img = null;
   }
 }
